@@ -17,10 +17,10 @@ const Routes = () => {
       <ScrollToTop />
       <RouterRoutes>
         {/* Define your route here */}
-        <Route path="/" element={<AIQueryInterface />} />
+        {/* <Route path="/" element={<AIQueryInterface />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/user-management" element={<UserManagement />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/ai-query-interface" element={<AIQueryInterface />} />
         <Route path="/pdf-upload-management" element={<PDFUploadManagement />} />
         <Route path="/financial-data-analysis" element={<FinancialDataAnalysis />} />
