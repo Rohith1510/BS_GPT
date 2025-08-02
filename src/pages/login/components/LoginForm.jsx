@@ -216,7 +216,7 @@ const LoginForm = () => {
         </form>
 
         {/* Google Sign-In Button */}
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <Button
             type="button"
             onClick={async () => {
@@ -230,7 +230,7 @@ const LoginForm = () => {
             <svg className="w-5 h-5" viewBox="0 0 48 48"><g><path d="M44.5 20H24v8.5h11.7C34.7 33.9 29.8 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 6 .9 8.3 2.7l6.2-6.2C34.2 5.1 29.3 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.7 20-21 0-1.3-.1-2.7-.3-4z" fill="#FFC107"/><path d="M6.3 14.7l7 5.1C15.5 16.2 19.4 13 24 13c3.1 0 6 .9 8.3 2.7l6.2-6.2C34.2 5.1 29.3 3 24 3c-7.2 0-13 5.8-13 13 0 1.6.3 3.1.8 4.7z" fill="#FF3D00"/><path d="M24 45c5.6 0 10.5-1.9 14.3-5.1l-6.6-5.4C29.7 36.5 26.9 37.5 24 37.5c-5.7 0-10.6-3.7-12.3-8.8l-7 5.4C7.9 41.6 15.4 45 24 45z" fill="#4CAF50"/><path d="M44.5 20H24v8.5h11.7c-1.1 3.1-4.2 5.5-7.7 5.5-2.2 0-4.2-.7-5.7-2.1l-7 5.4C15.4 41.6 19.4 45 24 45c10.5 0 20-7.7 20-21 0-1.3-.1-2.7-.3-4z" fill="#1976D2"/></g></svg>
             Sign in with Google
           </Button>
-        </div>
+        </div> */}
 
         <div className="mt-6 text-center">
           <p className="text-gray-300 text-sm">
@@ -245,14 +245,14 @@ const LoginForm = () => {
         </div>
 
         {/* Demo Credentials */}
-        <div className="mt-6 p-4 bg-white/5 border border-white/10 rounded-lg">
+        {/* <div className="mt-6 p-4 bg-white/5 border border-white/10 rounded-lg">
           <p className="text-xs text-gray-400 mb-2">Demo Credentials:</p>
           <div className="space-y-1 text-xs text-gray-300">
             <p>• Group Admin: admin@ambani.com / admin123</p>
             <p>• CEO: ceo@reliancejio.com / ceo123</p>
             <p>• Analyst: analyst@reliance.com / analyst123</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
