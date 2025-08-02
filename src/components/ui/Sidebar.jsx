@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from '../AppIcon';
 import Button from './Button';
 import { useAuth } from '../../contexts/AuthContext';
@@ -10,6 +10,7 @@ const Sidebar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { userProfile } = useAuth();
+  const navigate = useNavigate();
 
   // Get user role from auth context
   const userRole = userProfile?.role || 'analyst';
@@ -68,7 +69,7 @@ const Sidebar = () => {
   const isActivePath = (path) => location.pathname === path;
 
   const handleNavigation = (path) => {
-    window.location.href = path;
+    navigate(path);
     if (isMobile) {
       setMobileMenuOpen(false);
     }
