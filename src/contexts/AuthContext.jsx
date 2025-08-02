@@ -89,8 +89,8 @@ export function AuthProvider({ children }) {
 
   // Redirect after login/signup if user and profile are loaded and not on /login
   useEffect(() => {
-    if (!loading && user && userProfile && location.pathname === '/login') {
-      navigate('/'); // or use a role-based redirect here
+    if (!loading && user && userProfile && location.pathname === '/') {
+      navigate('/dashboard'); // or use a role-based redirect here
     }
   }, [loading, user, userProfile, location.pathname, navigate]);
 

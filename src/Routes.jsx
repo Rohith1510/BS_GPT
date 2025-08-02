@@ -18,7 +18,7 @@ const Routes = () => {
       <RouterRoutes>
         {/* Define your route here */}
         {/* <Route path="/" element={<AIQueryInterface />} /> */}
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/user-management" element={<UserManagement />} />
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />

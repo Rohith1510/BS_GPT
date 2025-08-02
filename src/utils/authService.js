@@ -45,7 +45,7 @@ class AuthService {
             full_name: userData.full_name || '',
             role: userData.role || 'analyst'
           },
-          emailRedirectTo: `${window.location.origin}/login`
+          emailRedirectTo: `${window.location.origin}/`
         }
       });
 

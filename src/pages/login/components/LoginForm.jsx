@@ -67,6 +67,7 @@ const LoginForm = () => {
       }
     } finally {
       setFormLoading(false);
+      console.log("@@@@LOgin Console", localStorage.getItem('user'))
     }
   };
 

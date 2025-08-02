@@ -33,7 +33,7 @@ const Header = () => {
   const handleSignOut = async () => {
     const result = await signOut();
     if (result.success) {
-      navigate('/login');
+      navigate('/');
     }
     setProfileMenuOpen(false);
   };

@@ -12,6 +12,7 @@ const Login = () => {
   useEffect(() => {
     // Check if user is already logged in
     const user = localStorage.getItem('user');
+    console.log("@@@@login Use", user);
     if (user) {
       navigate('/dashboard');
     }
