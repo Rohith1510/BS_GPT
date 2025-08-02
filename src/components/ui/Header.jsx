@@ -25,7 +25,8 @@ const Header = () => {
   const isActivePath = (path) => location.pathname === path;
 
   const handleNavigation = (path) => {
-    window.location.href = path;
+    // window.location.href = path;
+    navigate(path);
     setMobileMenuOpen(false);
     setProfileMenuOpen(false);
   };
