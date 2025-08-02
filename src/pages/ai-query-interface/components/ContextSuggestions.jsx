@@ -168,7 +168,7 @@ const ContextSuggestions = ({ suggestions, onSelectSuggestion, currentContext, i
             onClick={() => onSelectSuggestion("Export this data to Excel")}
             className="glass-morphic glass-hover border-glass-border hover:border-primary/30 text-[10px] sm:text-xs h-7 sm:h-8 px-1.5 sm:px-2"
           >
-            <Icon name="Download" size={12} className="mr-0.5 sm:mr-1 sm:size-14" />
+            <Icon name="Download" size={12} className="mr-0.5 sm:mr-1 sm:size-14 lg:size-3" />
             <span className="truncate">Export Data</span>
           </Button>
           
@@ -178,7 +178,7 @@ const ContextSuggestions = ({ suggestions, onSelectSuggestion, currentContext, i
             onClick={() => onSelectSuggestion("Create a summary report")}
             className="glass-morphic glass-hover border-glass-border hover:border-primary/30 text-[10px] sm:text-xs h-7 sm:h-8 px-1.5 sm:px-2"
           >
-            <Icon name="FileText" size={12} className="mr-0.5 sm:mr-1 sm:size-14" />
+            <Icon name="FileText" size={12} className="mr-0.5 sm:mr-1 sm:size-14 lg:size-3" />
             <span className="truncate">Summary</span>
           </Button>
           
@@ -188,7 +188,7 @@ const ContextSuggestions = ({ suggestions, onSelectSuggestion, currentContext, i
             onClick={() => onSelectSuggestion("Schedule regular updates")}
             className="glass-morphic glass-hover border-glass-border hover:border-primary/30 text-[10px] sm:text-xs h-7 sm:h-8 px-1.5 sm:px-2"
           >
-            <Icon name="Calendar" size={12} className="mr-0.5 sm:mr-1 sm:size-14" />
+            <Icon name="Calendar" size={12} className="mr-0.5 sm:mr-1 sm:size-14 lg:size-3" />
             <span className="truncate">Schedule</span>
           </Button>
           
@@ -198,7 +198,7 @@ const ContextSuggestions = ({ suggestions, onSelectSuggestion, currentContext, i
             onClick={() => onSelectSuggestion("Share with team")}
             className="glass-morphic glass-hover border-glass-border hover:border-primary/30 text-[10px] sm:text-xs h-7 sm:h-8 px-1.5 sm:px-2"
           >
-            <Icon name="Share2" size={12} className="mr-0.5 sm:mr-1 sm:size-14" />
+            <Icon name="Share2" size={12} className="mr-0.5 sm:mr-1 sm:size-14 lg:size-3" />
             <span className="truncate">Share</span>
           </Button>
         </div>
