@@ -20,7 +20,7 @@ const Routes = () => {
         {/* <Route path="/" element={<AIQueryInterface />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/user-management" element={<UserManagement />} />
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/ai-query-interface" element={<AIQueryInterface />} />
         <Route path="/pdf-upload-management" element={<PDFUploadManagement />} />
