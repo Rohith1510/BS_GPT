@@ -220,13 +220,17 @@ const AIQueryInterface = () => {
     setCurrentContext('');
   };
 
+  // State for mobile sidebar visibility
+  const [mobileLeftSidebarOpen, setMobileLeftSidebarOpen] = useState(false);
+  const [mobileRightSidebarOpen, setMobileRightSidebarOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Main Layout */}
       <Header />
-      <div className="flex h-screen pt-16">
-        {/* Left Sidebar */}
-        <div className={`${leftSidebarCollapsed ? 'w-16' : 'w-80'} transition-all duration-300 border-r border-glass-border glass-morphic flex-shrink-0`}>
+      <div className="flex flex-col md:flex-row h-screen pt-16">
+        {/* Left Sidebar - Desktop */}
+        <div className={`hidden md:block ${leftSidebarCollapsed ? 'w-16' : 'w-80'} transition-all duration-300 border-r border-glass-border glass-morphic flex-shrink-0`}>
           <div className="h-full flex flex-col">
             {/* Sidebar Header */}
             <div className="p-4 border-b border-glass-border flex items-center justify-between">
@@ -262,38 +266,111 @@ const AIQueryInterface = () => {
           </div>
         </div>
 
+        {/* Left Sidebar - Mobile */}
+        <div className={`fixed inset-0 z-50 ${mobileLeftSidebarOpen ? 'block' : 'hidden'} md:hidden`}>
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setMobileLeftSidebarOpen(false)}></div>
+          <div className="absolute left-0 top-0 h-full w-80 glass-morphic border-r border-glass-border shadow-elevation-3">
+            <div className="h-full flex flex-col">
+              {/* Sidebar Header */}
+              <div className="p-4 border-b border-glass-border flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-foreground">Query Tools</h2>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setMobileLeftSidebarOpen(false)}
+                  className="glass-hover"
+                >
+                  <Icon name="X" size={16} />
+                </Button>
+              </div>
+
+              {/* Sidebar Content */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-6">
+                <QueryTemplates 
+                  onSelectTemplate={(template) => {
+                    handleSelectTemplate(template);
+                    setMobileLeftSidebarOpen(false);
+                  }}
+                  isCollapsed={false}
+                />
+                
+                <div className="border-t border-glass-border pt-6">
+                  <QueryHistory
+                    history={queryHistory}
+                    onSelectQuery={(query) => {
+                      handleSelectHistoryQuery(query);
+                      setMobileLeftSidebarOpen(false);
+                    }}
+                    onClearHistory={handleClearHistory}
+                    isCollapsed={false}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Chat Header */}
           <div className="p-4 border-b border-glass-border glass-morphic">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
+                {/* Mobile Left Sidebar Toggle */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setMobileLeftSidebarOpen(true)}
+                  className="md:hidden glass-hover"
+                >
+                  <Icon name="Menu" size={20} />
+                </Button>
+                
                 <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
                   <Icon name="Bot" size={20} color="white" />
                 </div>
                 <div>
                   <h1 className="text-xl font-semibold text-foreground">AI Financial Assistant</h1>
-                  <p className="text-sm text-muted-foreground">Ask me anything about your financial data</p>
+                  <p className="text-sm text-muted-foreground hidden sm:block">Ask me anything about your financial data</p>
                 </div>
               </div>
               
               <div className="flex items-center space-x-2">
+                {/* Mobile Right Sidebar Toggle */}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setMobileRightSidebarOpen(true)}
+                  className="md:hidden glass-hover"
+                >
+                  <Icon name="Lightbulb" size={20} />
+                </Button>
+                
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={handleClearChat}
-                  className="glass-morphic glass-hover border-glass-border"
+                  className="glass-morphic glass-hover border-glass-border hidden sm:flex"
                 >
                   <Icon name="RotateCcw" size={16} className="mr-2" />
                   Clear Chat
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleClearChat}
+                  className="glass-morphic glass-hover border-glass-border sm:hidden"
+                >
+                  <Icon name="RotateCcw" size={16} />
                 </Button>
               </div>
             </div>
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
-            <div className="max-w-4xl mx-auto">
+          <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4">
+            <div className="w-full max-w-4xl mx-auto">
               {messages.map((message) => (
                 <ChatMessage
                   key={message.id}
@@ -309,8 +386,8 @@ const AIQueryInterface = () => {
           </div>
 
           {/* Query Input */}
-          <div className="p-6 border-t border-glass-border glass-morphic">
-            <div className="max-w-4xl mx-auto">
+          <div className="p-3 sm:p-6 border-t border-glass-border glass-morphic">
+            <div className="w-full max-w-4xl mx-auto">
               <QueryInput
                 onSubmitQuery={handleSubmitQuery}
                 isLoading={isLoading}
@@ -320,8 +397,8 @@ const AIQueryInterface = () => {
           </div>
         </div>
 
-        {/* Right Sidebar */}
-        <div className={`${rightSidebarCollapsed ? 'w-16' : 'w-80'} transition-all duration-300 border-l border-glass-border glass-morphic flex-shrink-0`}>
+        {/* Right Sidebar - Desktop */}
+        <div className={`hidden md:block ${rightSidebarCollapsed ? 'w-16' : 'w-80'} transition-all duration-300 border-l border-glass-border glass-morphic flex-shrink-0`}>
           <div className="h-full flex flex-col">
             {/* Sidebar Header */}
             <div className="p-4 border-b border-glass-border flex items-center justify-between">
@@ -346,6 +423,40 @@ const AIQueryInterface = () => {
                 currentContext={currentContext}
                 isCollapsed={rightSidebarCollapsed}
               />
+            </div>
+          </div>
+        </div>
+        
+        {/* Right Sidebar - Mobile */}
+        <div className={`fixed inset-0 z-50 ${mobileRightSidebarOpen ? 'block' : 'hidden'} md:hidden`}>
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={() => setMobileRightSidebarOpen(false)}></div>
+          <div className="absolute right-0 top-0 h-full w-80 glass-morphic border-l border-glass-border shadow-elevation-3">
+            <div className="h-full flex flex-col">
+              {/* Sidebar Header */}
+              <div className="p-4 border-b border-glass-border flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-foreground">Smart Insights</h2>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setMobileRightSidebarOpen(false)}
+                  className="glass-hover"
+                >
+                  <Icon name="X" size={16} />
+                </Button>
+              </div>
+
+              {/* Sidebar Content */}
+              <div className="flex-1 overflow-y-auto p-4">
+                <ContextSuggestions
+                  suggestions={[]}
+                  onSelectSuggestion={(suggestion) => {
+                    handleFollowUp(suggestion);
+                    setMobileRightSidebarOpen(false);
+                  }}
+                  currentContext={currentContext}
+                  isCollapsed={false}
+                />
+              </div>
             </div>
           </div>
         </div>

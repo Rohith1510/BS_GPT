@@ -152,8 +152,8 @@ const ChatMessage = ({ message, onFollowUp }) => {
   if (type === 'user') {
     return (
       <div className="flex justify-end mb-6">
-        <div className="max-w-3xl">
-          <div className="bg-primary text-primary-foreground rounded-2xl rounded-br-md px-4 py-3 shadow-elevation-1">
+        <div className="max-w-[85%] sm:max-w-3xl">
+          <div className="bg-primary text-primary-foreground rounded-2xl rounded-br-md px-3 py-2 sm:px-4 sm:py-3 shadow-elevation-1">
             <p className="text-sm leading-relaxed">{content}</p>
           </div>
           <div className="flex justify-end mt-1">
@@ -166,15 +166,16 @@ const ChatMessage = ({ message, onFollowUp }) => {
 
   return (
     <div className="flex justify-start mb-6">
-      <div className="flex space-x-3 max-w-4xl">
+      <div className="flex space-x-2 sm:space-x-3 max-w-[85%] sm:max-w-4xl">
         <div className="flex-shrink-0">
-          <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-            <Icon name="Bot" size={16} color="white" />
+          <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-secondary flex items-center justify-center">
+            <Icon name="Bot" size={12} className="sm:hidden" color="white" />
+            <Icon name="Bot" size={16} className="hidden sm:block" color="white" />
           </div>
         </div>
         
         <div className="flex-1">
-          <div className="glass-morphic rounded-2xl rounded-tl-md p-4 shadow-elevation-2 border border-glass-border">
+          <div className="glass-morphic rounded-2xl rounded-tl-md p-3 sm:p-4 shadow-elevation-2 border border-glass-border">
             {/* Content */}
             <div className="prose prose-sm max-w-none text-foreground">
               <p className="leading-relaxed whitespace-pre-wrap">{content}</p>
@@ -184,9 +185,11 @@ const ChatMessage = ({ message, onFollowUp }) => {
             {charts && charts.length > 0 && (
               <div className="mt-4 space-y-4">
                 {charts.map((chart, index) => (
-                  <div key={index} className="glass-morphic rounded-lg p-4 border border-glass-border">
-                    <h4 className="text-sm font-medium text-foreground mb-3">{chart.title}</h4>
-                    {renderChart(chart)}
+                  <div key={index} className="glass-morphic rounded-lg p-2 sm:p-4 border border-glass-border">
+                    <h4 className="text-xs sm:text-sm font-medium text-foreground mb-2 sm:mb-3">{chart.title}</h4>
+                    <div className="overflow-x-auto">
+                      {renderChart(chart)}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -196,9 +199,11 @@ const ChatMessage = ({ message, onFollowUp }) => {
             {tables && tables.length > 0 && (
               <div className="mt-4 space-y-4">
                 {tables.map((table, index) => (
-                  <div key={index} className="glass-morphic rounded-lg p-4 border border-glass-border">
-                    <h4 className="text-sm font-medium text-foreground mb-3">{table.title}</h4>
-                    {renderTable(table)}
+                  <div key={index} className="glass-morphic rounded-lg p-2 sm:p-4 border border-glass-border">
+                    <h4 className="text-xs sm:text-sm font-medium text-foreground mb-2 sm:mb-3">{table.title}</h4>
+                    <div className="overflow-x-auto">
+                      {renderTable(table)}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -231,9 +236,10 @@ const ChatMessage = ({ message, onFollowUp }) => {
                       variant="outline"
                       size="sm"
                       onClick={() => onFollowUp(suggestion)}
-                      className="text-xs h-7 px-3 glass-morphic glass-hover border-glass-border hover:border-primary/30"
+                      className="text-xs h-7 px-2 sm:px-3 glass-morphic glass-hover border-glass-border hover:border-primary/30 truncate max-w-full"
+                      title={suggestion}
                     >
-                      {suggestion}
+                      <span className="truncate">{suggestion}</span>
                     </Button>
                   ))}
                 </div>
