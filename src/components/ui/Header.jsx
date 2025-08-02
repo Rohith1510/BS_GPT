@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Icon from '../AppIcon';
 import Button from './Button';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, userProfile, signOut } = useAuth();
 
   const navigationItems = [
     { label: 'Dashboard', path: '/dashboard', icon: 'LayoutDashboard' },
-    { label: 'Data Management', path: '/pdf-upload-management', icon: 'FileText' },
+    { label: 'Upload Files', path: '/pdf-upload-management', icon: 'FileText' },
     { label: 'Analysis', path: '/financial-data-analysis', icon: 'TrendingUp' },
     { label: 'AI Assistant', path: '/ai-query-interface', icon: 'Bot' },
   ];
@@ -23,6 +27,15 @@ const Header = () => {
   const handleNavigation = (path) => {
     window.location.href = path;
     setMobileMenuOpen(false);
+    setProfileMenuOpen(false);
+  };
+
+  const handleSignOut = async () => {
+    const result = await signOut();
+    if (result.success) {
+      navigate('/login');
+    }
+    setProfileMenuOpen(false);
   };
 
   return (
@@ -89,14 +102,32 @@ const Header = () => {
           {/* User Profile & Mobile Menu */}
           <div className="flex items-center space-x-3">
             {/* User Profile */}
-            <div className="hidden md:flex items-center space-x-3">
+            <div className="hidden md:flex items-center space-x-3 relative">
               <div className="text-right">
-                <div className="text-sm font-medium text-foreground">John Doe</div>
-                <div className="text-xs text-muted-foreground">Financial Analyst</div>
+                <div className="text-sm font-medium text-foreground">{userProfile?.full_name || 'Guest'}</div>
+                <div className="text-xs text-muted-foreground capitalize">{userProfile?.role || 'User'}</div>
               </div>
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+              <button 
+                className="w-8 h-8 rounded-full bg-primary flex items-center justify-center"
+                onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+              >
                 <Icon name="User" size={16} color="white" />
-              </div>
+              </button>
+              
+              {/* Profile Dropdown */}
+              {profileMenuOpen && (
+                <div className="absolute right-0 top-full mt-2 w-48 glass-morphic rounded-lg shadow-elevation-3 z-50">
+                  <div className="py-2">
+                    <button
+                      onClick={handleSignOut}
+                      className="flex items-center space-x-3 w-full px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-glass-hover transition-all duration-200"
+                    >
+                      <Icon name="LogOut" size={16} />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -135,14 +166,23 @@ const Header = () => {
               
               {/* Mobile User Profile */}
               <div className="border-t border-glass-border mt-4 pt-4 px-6">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
-                    <Icon name="User" size={18} color="white" />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+                      <Icon name="User" size={18} color="white" />
+                    </div>
+                    <div>
+                      <div className="text-sm font-medium text-foreground">{userProfile?.full_name || 'Guest'}</div>
+                      <div className="text-xs text-muted-foreground capitalize">{userProfile?.role || 'User'}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-sm font-medium text-foreground">John Doe</div>
-                    <div className="text-xs text-muted-foreground">Financial Analyst</div>
-                  </div>
+                  <button
+                    onClick={handleSignOut}
+                    className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-glass-hover transition-all duration-200"
+                  >
+                    <Icon name="LogOut" size={16} />
+                    <span>Sign Out</span>
+                  </button>
                 </div>
               </div>
             </nav>

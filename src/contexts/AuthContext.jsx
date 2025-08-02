@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import authService from "../utils/authService";
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -8,6 +9,8 @@ export function AuthProvider({ children }) {
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     let isMounted = true;
@@ -84,6 +87,13 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
+  // Redirect after login/signup if user and profile are loaded and not on /login
+  useEffect(() => {
+    if (!loading && user && userProfile && location.pathname === '/login') {
+      navigate('/'); // or use a role-based redirect here
+    }
+  }, [loading, user, userProfile, location.pathname, navigate]);
+
   // Sign in function
   const signIn = async (email, password) => {
     try {
@@ -113,6 +123,16 @@ export function AuthProvider({ children }) {
       if (!result?.success) {
         setAuthError(result?.error || "Signup failed");
         return { success: false, error: result?.error };
+      }
+
+      // Check if email confirmation is needed
+      if (result.needsEmailConfirmation) {
+        return { 
+          success: true, 
+          data: result.data,
+          needsEmailConfirmation: true,
+          message: "Please check your email to confirm your account before logging in."
+        };
       }
 
       return { success: true, data: result.data };
@@ -194,6 +214,23 @@ export function AuthProvider({ children }) {
     }
   };
 
+  // Add Google sign-in
+  const signInWithGoogle = async () => {
+    try {
+      setAuthError(null);
+      const result = await authService.signInWithGoogle();
+      if (!result?.success) {
+        setAuthError(result?.error || "Google sign-in failed");
+        return { success: false, error: result?.error };
+      }
+      return { success: true, data: result.data };
+    } catch (error) {
+      const errorMsg = "Something went wrong during Google sign-in. Please try again.";
+      setAuthError(errorMsg);
+      return { success: false, error: errorMsg };
+    }
+  };
+
   const value = {
     user,
     userProfile,
@@ -205,6 +242,7 @@ export function AuthProvider({ children }) {
     updateProfile,
     resetPassword,
     clearError: () => setAuthError(null),
+    signInWithGoogle, // <-- add this
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -218,4 +256,4 @@ export const useAuth = () => {
   return context;
 };
 
-export default AuthContext;
+// export default AuthContext;

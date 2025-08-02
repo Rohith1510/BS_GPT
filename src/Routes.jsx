@@ -12,7 +12,7 @@ import FinancialDataAnalysis from './pages/financial-data-analysis';
 
 const Routes = () => {
   return (
-    <BrowserRouter>
+    
       <ErrorBoundary>
       <ScrollToTop />
       <RouterRoutes>
@@ -21,13 +21,14 @@ const Routes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/user-management" element={<UserManagement />} />
         <Route path="/" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/ai-query-interface" element={<AIQueryInterface />} />
         <Route path="/pdf-upload-management" element={<PDFUploadManagement />} />
         <Route path="/financial-data-analysis" element={<FinancialDataAnalysis />} />
         <Route path="*" element={<NotFound />} />
       </RouterRoutes>
       </ErrorBoundary>
-    </BrowserRouter>
+    
   );
 };
 

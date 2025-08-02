@@ -6,7 +6,7 @@ import AlertBanner from '../../../components/ui/AlertBanner';
 import { Eye, EyeOff, LogIn, UserPlus } from 'lucide-react';
 
 const LoginForm = () => {
-  const { signIn, signUp, loading, authError, clearError } = useAuth();
+  const { signIn, signUp, signInWithGoogle, loading, authError, clearError } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -25,9 +25,14 @@ const LoginForm = () => {
     if (authError) clearError();
   };
 
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [signupMessage, setSignupMessage] = useState('');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormLoading(true);
+    setSignupSuccess(false);
+    setSignupMessage('');
 
     try {
       if (isSignUp) {
@@ -37,8 +42,20 @@ const LoginForm = () => {
         });
         
         if (result?.success) {
-          // Show success message or redirect
-          console.log('Signup successful');
+          if (result.needsEmailConfirmation) {
+            setSignupSuccess(true);
+            setSignupMessage(result.message || 'Please check your email to confirm your account before logging in.');
+            // Reset form
+            setFormData({
+              email: '',
+              password: '',
+              fullName: '',
+              role: 'analyst'
+            });
+            setIsSignUp(false); // Switch to login view
+          } else {
+            console.log('Signup successful');
+          }
         }
       } else {
         const result = await signIn(formData.email, formData.password);
@@ -85,6 +102,17 @@ const LoginForm = () => {
               type="error"
               onClose={clearError}
               allowCopy={true}
+            />
+          </div>
+        )}
+
+        {signupSuccess && (
+          <div className="mb-6">
+            <AlertBanner
+              message={signupMessage}
+              type="success"
+              onClose={() => setSignupSuccess(false)}
+              allowCopy={false}
             />
           </div>
         )}
@@ -186,6 +214,23 @@ const LoginForm = () => {
             )}
           </Button>
         </form>
+
+        {/* Google Sign-In Button */}
+        <div className="mt-4">
+          <Button
+            type="button"
+            onClick={async () => {
+              setFormLoading(true);
+              await signInWithGoogle();
+              setFormLoading(false);
+            }}
+            className="w-full bg-white/10 border border-white/20 text-white hover:bg-white/20 flex items-center justify-center gap-2 py-3 rounded-lg transition-all duration-200"
+            disabled={formLoading || loading}
+          >
+            <svg className="w-5 h-5" viewBox="0 0 48 48"><g><path d="M44.5 20H24v8.5h11.7C34.7 33.9 29.8 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 6 .9 8.3 2.7l6.2-6.2C34.2 5.1 29.3 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.7 20-21 0-1.3-.1-2.7-.3-4z" fill="#FFC107"/><path d="M6.3 14.7l7 5.1C15.5 16.2 19.4 13 24 13c3.1 0 6 .9 8.3 2.7l6.2-6.2C34.2 5.1 29.3 3 24 3c-7.2 0-13 5.8-13 13 0 1.6.3 3.1.8 4.7z" fill="#FF3D00"/><path d="M24 45c5.6 0 10.5-1.9 14.3-5.1l-6.6-5.4C29.7 36.5 26.9 37.5 24 37.5c-5.7 0-10.6-3.7-12.3-8.8l-7 5.4C7.9 41.6 15.4 45 24 45z" fill="#4CAF50"/><path d="M44.5 20H24v8.5h11.7c-1.1 3.1-4.2 5.5-7.7 5.5-2.2 0-4.2-.7-5.7-2.1l-7 5.4C15.4 41.6 19.4 45 24 45c10.5 0 20-7.7 20-21 0-1.3-.1-2.7-.3-4z" fill="#1976D2"/></g></svg>
+            Sign in with Google
+          </Button>
+        </div>
 
         <div className="mt-6 text-center">
           <p className="text-gray-300 text-sm">

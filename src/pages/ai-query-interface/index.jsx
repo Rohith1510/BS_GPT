@@ -7,6 +7,7 @@ import QueryInput from './components/QueryInput';
 import ChatMessage from './components/ChatMessage';
 import LoadingIndicator from './components/LoadingIndicator';
 import ContextSuggestions from './components/ContextSuggestions';
+import Header from '../../components/ui/Header';
 
 const AIQueryInterface = () => {
   const [messages, setMessages] = useState([]);
@@ -222,6 +223,7 @@ const AIQueryInterface = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Main Layout */}
+      <Header />
       <div className="flex h-screen pt-16">
         {/* Left Sidebar */}
         <div className={`${leftSidebarCollapsed ? 'w-16' : 'w-80'} transition-all duration-300 border-r border-glass-border glass-morphic flex-shrink-0`}>

@@ -4,16 +4,24 @@ class AuthService {
   // Sign in with email and password
   async signIn(email, password) {
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      // First check if the user's email is confirmed
+      const { data: userData, error: userError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) {
-        return { success: false, error: error.message };
+      if (userError) {
+        // Check if the error is due to email not being confirmed
+        if (userError.message.includes('Email not confirmed')) {
+          return { 
+            success: false, 
+            error: 'Please confirm your email address before logging in. Check your inbox for a confirmation email.' 
+          };
+        }
+        return { success: false, error: userError.message };
       }
 
-      return { success: true, data };
+      return { success: true, data: userData };
     } catch (error) {
       if (error?.message?.includes('Failed to fetch') || 
           error?.message?.includes('AuthRetryableFetchError')) {
@@ -36,7 +44,8 @@ class AuthService {
           data: {
             full_name: userData.full_name || '',
             role: userData.role || 'analyst'
-          }
+          },
+          emailRedirectTo: `${window.location.origin}/login`
         }
       });
 
@@ -44,7 +53,14 @@ class AuthService {
         return { success: false, error: error.message };
       }
 
-      return { success: true, data };
+      // Check if email confirmation is needed
+      const needsEmailConfirmation = !data.session;
+      
+      return { 
+        success: true, 
+        data, 
+        needsEmailConfirmation 
+      };
     } catch (error) {
       if (error?.message?.includes('Failed to fetch') || 
           error?.message?.includes('AuthRetryableFetchError')) {
@@ -171,6 +187,24 @@ class AuthService {
         };
       }
       return { success: false, error: 'Failed to send reset password email' };
+    }
+  }
+
+  // Sign in with Google
+  async signInWithGoogle() {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin // or a custom callback URL if needed
+        }
+      });
+      if (error) {
+        return { success: false, error: error.message };
+      }
+      return { success: true, data };
+    } catch (error) {
+      return { success: false, error: 'An unexpected error occurred during Google sign in' };
     }
   }
 

@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Icon from '../AppIcon';
 import Button from './Button';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { userProfile } = useAuth();
 
-  // Mock user role - in real app this would come from auth context
-  const userRole = 'analyst'; // 'analyst', 'ceo', 'admin'
+  // Get user role from auth context
+  const userRole = userProfile?.role || 'analyst';
 
   const navigationItems = [
     { 
@@ -148,7 +150,7 @@ const Sidebar = () => {
                       <Icon name="User" size={18} color="white" />
                     </div>
                     <div className="flex-1">
-                      <div className="text-sm font-medium text-foreground">John Doe</div>
+                      <div className="text-sm font-medium text-foreground">{userProfile?.full_name || 'Guest'}</div>
                       <div className="text-xs text-muted-foreground capitalize">{userRole}</div>
                     </div>
                     <Button variant="ghost" size="icon">
@@ -234,7 +236,7 @@ const Sidebar = () => {
                 <Icon name="User" size={18} color="white" />
               </div>
               <div className="flex-1">
-                <div className="text-sm font-medium text-foreground">John Doe</div>
+                <div className="text-sm font-medium text-foreground">{userProfile?.full_name || 'Guest'}</div>
                 <div className="text-xs text-muted-foreground capitalize">{userRole}</div>
               </div>
               <Button variant="ghost" size="icon">
@@ -246,7 +248,7 @@ const Sidebar = () => {
               <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center group relative">
                 <Icon name="User" size={18} color="white" />
                 <div className="absolute left-full ml-2 px-3 py-2 bg-popover text-popover-foreground text-sm rounded-lg shadow-elevation-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50">
-                  John Doe
+                  {userProfile?.full_name || 'Guest'}
                 </div>
               </div>
             </div>
