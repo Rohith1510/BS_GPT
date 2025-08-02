@@ -210,7 +210,7 @@ const Select = React.forwardRef(({
                                             <Check className="h-4 w-4" />
                                         )}
                                         {option.description && (
-                                            <span className="text-xs text-muted-foreground ml-2">
+                                            <span className="text-xs text-muted-black ml-2">
                                                 {option.description}
                                             </span>
                                         )}

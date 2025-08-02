@@ -170,9 +170,8 @@ const UserModal = ({ isOpen, onClose, user, onSave, mode = 'create' }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="fixed inset-0 bg-background/80 backdrop-blur-sm" onClick={onClose} />
-      
-      <div className="relative w-full max-w-2xl max-h-[90vh] glass-morphic rounded-lg shadow-elevation-4 overflow-hidden">
+      <div className="fixed inset-0 bg-background/80 backdrop-blur-sm" onClick={onClose} />      
+      <div className="relative w-full max-w-2xl min-h-[50vh] max-h-[90vh] glass-morphic rounded-lg shadow-elevation-4 overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-glass-border">
           <div>
@@ -190,7 +189,7 @@ const UserModal = ({ isOpen, onClose, user, onSave, mode = 'create' }) => {
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+        <div className="p-6 overflow-y-auto flex-grow">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Basic Information */}
             <div className="space-y-4">
@@ -310,8 +309,14 @@ const UserModal = ({ isOpen, onClose, user, onSave, mode = 'create' }) => {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end space-x-3 p-6 border-t border-glass-border">
-          <Button variant="outline" onClick={onClose} disabled={loading}>
+        <div className="flex items-center justify-end space-x-3 p-4 sm:p-6 border-t border-glass-border sticky bottom-0 bg-surface z-10 shadow-elevation-1">
+          <Button 
+            variant="outline" 
+            onClick={onClose} 
+            disabled={loading}
+            size="lg"
+            className="min-w-[100px] font-medium"
+          >
             Cancel
           </Button>
           <Button 
@@ -319,6 +324,8 @@ const UserModal = ({ isOpen, onClose, user, onSave, mode = 'create' }) => {
             loading={loading}
             iconName={mode === 'create' ? 'Plus' : 'Save'}
             iconPosition="left"
+            size="lg"
+            className="min-w-[140px] font-medium"
           >
             {mode === 'create' ? 'Create User' : 'Save Changes'}
           </Button>
