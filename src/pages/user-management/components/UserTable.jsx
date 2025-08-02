@@ -129,9 +129,9 @@ const UserTable = ({ users, onEditUser, onDeleteUser, onBulkAction, selectedUser
   const isIndeterminate = selectedUsers.length > 0 && selectedUsers.length < filteredAndSortedUsers.length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
       {/* Filters */}
-      <div className="glass-morphic rounded-lg p-6">
+      <div className="glass-morphic rounded-lg p-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Input
             type="search"
@@ -189,7 +189,7 @@ const UserTable = ({ users, onEditUser, onDeleteUser, onBulkAction, selectedUser
       </div>
 
       {/* Table */}
-      <div className="glass-morphic rounded-lg overflow-hidden">
+      <div className="glass-morphic rounded-lg overflow-hidden relative z-0">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-muted/10 border-b border-glass-border">
