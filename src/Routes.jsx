@@ -13,7 +13,8 @@ import FinancialDataAnalysis from './pages/financial-data-analysis';
 const Routes = () => {
   return (
     
-      <ErrorBoundary>
+      // <ErrorBoundary>
+      <>
       <ScrollToTop />
       <RouterRoutes>
         {/* Define your route here */}
@@ -27,7 +28,8 @@ const Routes = () => {
         <Route path="/financial-data-analysis" element={<FinancialDataAnalysis />} />
         <Route path="*" element={<NotFound />} />
       </RouterRoutes>
-      </ErrorBoundary>
+      </>
+      // </ErrorBoundary>
     
   );
 };
